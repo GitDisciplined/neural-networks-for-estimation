@@ -31,7 +31,7 @@ from torch.utils.data import TensorDataset, DataLoader
 #y_test=torch.tensor(y.tolist()[100:]).unsqueeze(1)
 
 
-a=np.arange(0,20,.1)
+a=np.arange(0,60,.1)
 b=np.sin(a)
 
 step=4
@@ -43,7 +43,7 @@ y=[]
 
 for i in range(len(a)-step):
 
-    x.append(a[i:i+step])
+    x.append(b[i:i+step])
 
     
     y.append(b[i+step])
@@ -77,8 +77,8 @@ class recurrent(nn.Module):
 
         super().__init__()
 
-        self.lstm=nn.LSTM(1,20,1)
-        self.fc1=nn.Linear(20,8)
+        self.lstm=nn.LSTM(1,4,1)
+        self.fc1=nn.Linear(4,8)
         self.fc2=nn.Linear(8,1)
         self.relu=nn.ReLU()
         
@@ -102,7 +102,8 @@ import torch.optim as op
 
 model=recurrent()
 criteria=nn.MSELoss()
-optimizer=op.SGD(model.parameters(),lr=.1)
+#optimizer=op.SGD(model.parameters(),lr=.1)
+optimizer = op.Adam(model.parameters(), lr=0.01, weight_decay=1e-4)
 
 
 
@@ -129,7 +130,8 @@ model.eval()
 
 
 x_new=[]
-y_new=[]
+y_pred=[]
+y_actual=[]
 
 with torch.no_grad():
 
@@ -141,12 +143,13 @@ with torch.no_grad():
 
         print(x_test[k], prediction)
 
-        x_new.append(x_test[k][-1][0].tolist())
-        y_new.append(prediction[0].tolist())
+        x_new.append(k)
+        y_pred.append(prediction[0].tolist())
+        y_actual.append(x_test[k][-1][0].tolist())
        
     
 
-plt.plot(x_new,y_new)
+plt.plot(x_new,y_pred,y_actual)
 plt.show()
 
 
