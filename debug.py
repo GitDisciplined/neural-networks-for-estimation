@@ -145,7 +145,7 @@ with torch.no_grad():
 
         x_new.append(k)
         y_pred.append(prediction[0].tolist())
-        y_actual.append(x_test[k][-1][0].tolist())
+        y_actual.append(y_test[k][0].tolist())
        
     
 
