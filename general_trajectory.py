@@ -51,7 +51,7 @@ tar_y=[]
 
 
 r=4
-b_in=np.radians(80)
+b_in=np.radians(10)
 course=np.radians(-110)
 v=.1246
 T=1
